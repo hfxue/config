@@ -1,55 +1,23 @@
 server:
-  port: 10010
+  port: ${port:9091}
 spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/db1
+    username: root
+    password: 123456
   application:
-    name: api-gateway
-  cloud:
-    gateway:
-      routes:
-        # 路由id，可以任意
-        - id: user-service-route
-          # 代理的服务地址
-          #uri: http://127.0.0.1:9091
-          # lb 之后编写的服务名必须要在eureka中注册才能使用
-          uri: lb://user-service
-          # 路由断言： 可以匹配映射路径
-          predicates:
-            #- Path=/user/**
-            #- Path=/**
-            - Path=/api/user/**
-          filters:
-            # 添加请求路径的前缀
-            #- PrefixPath=/user
-            - StripPrefix=1
-            - HahaParam=name
-
-            # 默认过滤器，对所有路由都生效
-      default-filters:
-        - AddResponseHeader=X-Response-Foo, Bar
-        - AddResponseHeader=abc-myname,heima
-      globalcors:
-        corsConfigurations:
-          '[/**]':
-            #allowedOrigins: * # 这种写法或者下面的都可以，*表示全部
-            allowedOrigins:
-              - "http://docs.spring.io"
-            allowedMethods:
-              - GET
+    name: user-service
+mybatis:
+  type-aliases-package: com.itheima.user.pojo
 eureka:
   client:
     service-url:
       defaultZone: http://127.0.0.1:10086/eureka
   instance:
     prefer-ip-address: true
-hystrix:
-  command:
-    default:
-      execution:
-        isolation:
-          thread:
-            timeoutInMilliseconds: 6000
-ribbon:
-  ConnectTimeout: 1000
-  ReadTimeout: 2000
-  MaxAutoRetries: 0
-  MaxAutoRetriesNextServer: 0
+    ip-address: 192.168.124.1
+    # 服务失效时间，默认90秒
+    lease-expiration-duration-in-seconds: 5
+    # 续约间隔，默认30秒
+    lease-renewal-interval-in-seconds: 5
