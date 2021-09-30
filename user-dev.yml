@@ -23,4 +23,4 @@ eureka:
     lease-renewal-interval-in-seconds: 5
 test:
   name:
-    李白
+    杜甫
