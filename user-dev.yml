@@ -21,3 +21,6 @@ eureka:
     lease-expiration-duration-in-seconds: 5
     # 续约间隔，默认30秒
     lease-renewal-interval-in-seconds: 5
+test:
+  name:
+    李白
